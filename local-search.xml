@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>使 Hexo后台运行</title>
+    <link href="/2020/02/24/%E4%BD%BF-Hexo%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/"/>
+    <url>/2020/02/24/%E4%BD%BF-Hexo%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/</url>
+    
+    <content type="html"><![CDATA[<p>之前说过</p><pre><code>hexo s</code></pre><p>开启Hexo网页服务时有个缺陷</p><p>就是在关掉ssh后，Hexo网页进程会死掉，之后就连接不上Hexo网页了</p><p>一直开着ssh是不可取的，在网络上大部分人通过pm2来使Hexo在后台运行，</p><p>这里我介绍一下方法，非常简单，只有三部</p><h2 id="一-安装pm2"><a href="#一-安装pm2" class="headerlink" title="一.安装pm2"></a>一.安装pm2</h2><pre><code>npm  install -g pm2</code></pre><h2 id="二-写脚本"><a href="#二-写脚本" class="headerlink" title="二.写脚本"></a>二.写脚本</h2><p>在myblog目录下创建一个hexo_run.js文件</p><p>然后通过Vim打开，输入</p><pre><code>const { exec } = require(&#39;child_process&#39;)exec(&#39;hexo server&#39;,(error, stdout, stderr) =&gt; {        if(error){                console.log(&#39;exec error: ${error}&#39;)                return        }        console.log(&#39;stdout: ${stdout}&#39;);        console.log(&#39;stderr: ${stderr}&#39;);})</code></pre><h2 id="三-运行脚本"><a href="#三-运行脚本" class="headerlink" title="三.运行脚本"></a>三.运行脚本</h2><p>在根目录下，执行</p><pre><code class="bash">pm2 start hexo_run.js</code></pre><p>便可实现，关闭ssh后，Hexo网页服务在后台运行</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>实用</tag>
+      
+      <tag>个人博客</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hexo搭建个人博客</title>
+    <link href="/2020/02/24/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    <url>/2020/02/24/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-环境"><a href="#1-环境" class="headerlink" title="1.环境"></a>1.环境</h2><h4 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h4><p>一般系统自带，通过</p><pre><code>git  --version</code></pre><p>查看</p><p>若没有安装，可用</p><pre><code>yum -y install git</code></pre><p>进行安装</p><p>也可使用git源码安装，很复杂，不多说，好奇者自行了解</p><h4 id="2-安装node-js"><a href="#2-安装node-js" class="headerlink" title="2.安装node.js"></a>2.安装node.js</h4><p>有三种方式：源码包，nvm，yum，这里只说后两者</p><h6 id="nvm方式"><a href="#nvm方式" class="headerlink" title="nvm方式"></a>nvm方式</h6><pre><code>curl https://raw.github.com/creationix/nvm/master/install.sh | sh</code></pre><pre><code>wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</code></pre><pre><code>nvm install stable</code></pre><p>最后查看版本</p><pre><code>node -v</code></pre><h6 id="yum方式"><a href="#yum方式" class="headerlink" title="yum方式"></a>yum方式</h6><pre><code>curl -sL https://rpm.nodesource.com/setup_10.x | bash -</code></pre><pre><code>yum install -y nodejs</code></pre><p>最后查看版本</p><pre><code>node -v</code></pre><p>环境配置好后，开始安装Hexo</p><h2 id="2-安装Hexo"><a href="#2-安装Hexo" class="headerlink" title="2.安装Hexo"></a>2.安装Hexo</h2><p>通过</p><pre><code class="ruby">npm install -g hexo-cli</code></pre><p>安装Hexo</p><p>通过</p><pre><code class="ruby"> hexo init myblog</code></pre><p>来新建所需文件</p><p>其中myblog是博客文件夹的名字，可以改成你想要的名字</p><p>然后</p><pre><code class="ruby">cd myblog</code></pre><p>进入新建的文件夹</p><pre><code class="ruby">npm install</code></pre><p>补全依赖环境</p><p>文件目录如下</p><pre><code class="bash">.├── _config.yml   ├── package.json├── scaffolds ├── source  |   ├── _drafts|   └── _posts└── themes</code></pre><p>具体内容之后再提。</p><p>3.使用Hexo</p><p>在myblog目录下执行</p><pre><code class="undefined">hexo generate或者hexo g</code></pre><p>生成页面，每次加入新博客的时候，都要执行<br>然后输入</p><pre><code class="undefined">hexo server或者hexo s</code></pre><p>开启网页服务，这个命令有一个缺陷之后再说</p><p>之后在浏览器上输入   服务器IP:4000</p><p>就可以看到主页了</p><p>不要忘记给服务器开放4000端口，这是要注意的点</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>实用</tag>
+      
+      <tag>个人博客</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux搭建lamp</title>
+    <link href="/2020/02/24/Linux%E6%90%AD%E5%BB%BAlamp/"/>
+    <url>/2020/02/24/Linux%E6%90%AD%E5%BB%BAlamp/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一-检查系统"><a href="#一-检查系统" class="headerlink" title="一.检查系统"></a>一.检查系统</h2><p>检查系统是非常重要的一步，不然有可能因为重复安装带来麻烦。</p><p>请以以下方法进行判断识别，如果未被识别则没有安装如果系统安装过，或者安装失败，请清理一下系统后，再继续安装。</p><h4 id="1-确认Linux版本"><a href="#1-确认Linux版本" class="headerlink" title="1.确认Linux版本"></a>1.确认Linux版本</h4><pre><code># cat /etc/redhat-releaseCentOS Linux release 7.7.1908 (Core)</code></pre><h4 id="2-检查是否安装Apache"><a href="#2-检查是否安装Apache" class="headerlink" title="2.检查是否安装Apache"></a>2.检查是否安装Apache</h4><p>可以用</p><pre><code>apachectl -v</code></pre><pre><code># apachectl -vServer version: Apache/2.4.6 (CentOS)Server built:   Aug  8 2019 11:41:18</code></pre><p>也可以用</p><pre><code>httpd -v</code></pre><pre><code># httpd -vServer version: Apache/2.4.6 (CentOS)Server built:   Aug  8 2019 11:41:18</code></pre><p>也可以用</p><p>(不推荐)</p><pre><code># rpm -qa | grep httpdhttpd-tools-2.4.6-90.el7.centos.x86_64httpd-2.4.6-90.el7.centos.x86_64httpd-manual-2.4.6-90.el7.centos.noarch</code></pre><h4 id="3、检查是否安装过Mysql"><a href="#3、检查是否安装过Mysql" class="headerlink" title="3、检查是否安装过Mysql"></a>3、检查是否安装过Mysql</h4><p>大多数教程检查mysql使用</p><pre><code>service mysqld start</code></pre><p>但在CentOS7之后，这个指令无法顺利运行</p><pre><code># service mysqld startRedirecting to /bin/systemctl start mysqld.service</code></pre><p>改用</p><pre><code>systemctl restart mysqld.service #重启mysql服务systemctl start mysqld.service #启动mysql服务systemctl stop mysqld.service #停止mysql服务systemctl status mysqld.service #查看mysql服务状态</code></pre><p>通过</p><pre><code>systemctl status mysqld.service</code></pre><p>可以判断，但比较麻烦</p><p>而通过查询路径的方法进行判断就比较简单</p><pre><code># whereis mysqlmysql: /usr/bin/mysql /usr/lib64/mysql /usr/include/mysql /usr/share/mysql /usr/share/man/man1/mysql.1.gz   #查看mysql安装路径</code></pre><pre><code># which mysql/usr/bin/mysql #通过 PATH环境变量查找可执行文件路径，用于查找指向这个命令所在的文件夹。</code></pre><h4 id="3、检查是否安装过PHP"><a href="#3、检查是否安装过PHP" class="headerlink" title="3、检查是否安装过PHP"></a>3、检查是否安装过PHP</h4><pre><code>php -v</code></pre><p>简单易用</p><h2 id="二、安装Apache、PHP、Mysql"><a href="#二、安装Apache、PHP、Mysql" class="headerlink" title="二、安装Apache、PHP、Mysql"></a>二、安装Apache、PHP、Mysql</h2><p>我们通过yum进行安装。</p><h4 id="1-安装apache"><a href="#1-安装apache" class="headerlink" title="1.安装apache"></a>1.安装apache</h4><p>可通过</p><pre><code>yum -y install httpd </code></pre><p>直到返回</p><pre><code>......  Complete!</code></pre><p>表示安装成功。</p><h4 id="2-安装php"><a href="#2-安装php" class="headerlink" title="2.安装php"></a>2.安装php</h4><pre><code>yum -y install php</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h4 id="3-安装php-fpm"><a href="#3-安装php-fpm" class="headerlink" title="3.安装php-fpm"></a>3.安装php-fpm</h4><p>PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器,提供了更好的PHP进程管理方式，可以有效控制内存和进程、可以平滑重载PHP配置。</p><pre><code>yum -y install php-fpm</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h4 id="4-安装mysql"><a href="#4-安装mysql" class="headerlink" title="4.安装mysql"></a>4.安装mysql</h4><pre><code>yum -y install mysql</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><p>另外7.2版本的Centos已经把mysql更名为mariadb了。</p><h4 id="5-安装mysql-sever"><a href="#5-安装mysql-sever" class="headerlink" title="5.安装mysql-sever"></a>5.安装mysql-sever</h4><pre><code>yum -y install mysql-server</code></pre><pre><code>    Loaded plugins: fastestmirror, langpacks       Loading mirror speeds from cached hostfile    * base: mirror.lzu.edu.cn    * extras: mirrors.nwsuaf.edu.cn    * updates: mirrors.tuna.tsinghua.edu.cn      No package mysql-server available.      Error: Nothing to do</code></pre><p>​    </p><p>  是的会返回错误！！！</p><p>  因为CentOS 7+ 把mysql从默认程序列表中移除了，用mariadb代替。。。</p><h5 id="两种解决方案"><a href="#两种解决方案" class="headerlink" title="两种解决方案"></a>两种解决方案</h5><h6 id="1-安装mariadb"><a href="#1-安装mariadb" class="headerlink" title="1.安装mariadb"></a>1.安装mariadb</h6><pre><code> yum install -y mariadb </code></pre><h6 id="2-从官网下载mysql-server"><a href="#2-从官网下载mysql-server" class="headerlink" title="2.从官网下载mysql- server"></a>2.从官网下载mysql- server</h6><pre><code># wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm# rpm -ivh mysql-community-release-el7-5.noarch.rpm# yum install mysql-community-server</code></pre><p>然后需要确定，输入y,共两次，直到返回</p><pre><code>......Complete!</code></pre><h4 id="6-安装php-mysql"><a href="#6-安装php-mysql" class="headerlink" title="6.安装php-mysql"></a>6.安装php-mysql</h4><pre><code>yum -y install php-mysql</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h2 id="三-安装基本常用扩展包"><a href="#三-安装基本常用扩展包" class="headerlink" title="三.安装基本常用扩展包"></a>三.安装基本常用扩展包</h2><h4 id="1-安装apache扩展包"><a href="#1-安装apache扩展包" class="headerlink" title="1.安装apache扩展包"></a>1.安装apache扩展包</h4><pre><code>yum -y install httpd-manual mod_ssl mod_perl mod_auth_mysql </code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h4 id="2-安装PHP扩展包"><a href="#2-安装PHP扩展包" class="headerlink" title="2.安装PHP扩展包"></a>2.安装PHP扩展包</h4><pre><code>yum -y install php-gd php-xml php-mbstring php-ldap php-pear php-xmlrpc php-devel</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h4 id="3-安装mysql扩展包"><a href="#3-安装mysql扩展包" class="headerlink" title="3.安装mysql扩展包"></a>3.安装mysql扩展包</h4><pre><code>yum -y install mysql-connector-odbc mysql-devel libdbi-dbd-mysql</code></pre><p>直到返回</p><pre><code>......Complete!</code></pre><h2 id="四-配置apache和mysql开机启动"><a href="#四-配置apache和mysql开机启动" class="headerlink" title="四.配置apache和mysql开机启动"></a>四.配置apache和mysql开机启动</h2><p>apache指令</p><pre><code>systemctl start httpd.service #启动apachesystemctl stop httpd.service #停止apachesystemctl restart httpd.service #重启apachesystemctl enable httpd.service #设置apache开机启动</code></pre><p>若安装的是mariadb</p><pre><code># systemctl start mariadb.service #启动MariaDB# systemctl stop mariadb.service #停止MariaDB# systemctl restart mariadb.service #重启MariaDB# systemctl enable mariadb.service  #设置开机启动</code></pre><p>然后重启对应服务</p><h2 id="五-配置mysql"><a href="#五-配置mysql" class="headerlink" title="五.配置mysql"></a>五.配置mysql</h2><p>初次安装mysql没有密码，首先设置密码，mysql的默认账户为root</p><p>设置mysql数据root账户的密码：</p><p>mysql_secure_installation</p><p>一直回车</p><p>出现如下时输入密码，linux中密码不显示，出入后回车再输入一次：</p><pre><code>New password:</code></pre><p>接下来还会有四个确认：</p><pre><code>Remove anonymous users? [Y/n]Disallow root login remotely? [Y/n]Remove test database and access to it? [Y/n]Reload privilege tables now? [Y/n]</code></pre><p>直接回车即可。</p><h4 id="六-测试环境"><a href="#六-测试环境" class="headerlink" title="六.测试环境"></a>六.测试环境</h4><h6 id="1-输入服务器IP-说明Apach测试成功"><a href="#1-输入服务器IP-说明Apach测试成功" class="headerlink" title="1.输入服务器IP,说明Apach测试成功"></a>1.输入服务器IP,说明Apach测试成功</h6><p><img src="/img/lamp1.bmp" srcset="/img/loading.gif" alt="lamp1"></p><h6 id="2-测试php"><a href="#2-测试php" class="headerlink" title="2.测试php"></a>2.测试php</h6><p>进入/var/www/html,写一个简单的php测试文件</p><pre><code>#cd /var/www/html#touch phpinfo-test.php #vim phpinfo-test.php</code></pre><p>用vim打开后，按i 进入编辑模式，写入以下代码</p><pre><code>&lt;?phpphpinfo()?&gt;</code></pre><p>然后按esc退出编辑模式，回到控制模式，输入</p><p>输入服务器IP/phpinfo-test.php，出现下图则成功。</p><p><img src="/img/lamp2.bmp" srcset="/img/loading.gif" alt="lamp2"></p><h2 id="七-结束"><a href="#七-结束" class="headerlink" title="七.结束"></a>七.结束</h2><p>接下来开始部署Hexo</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>实用</tag>
+      
+      <tag>服务器环境配置</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2020/02/24/hello-world/"/>
+    <url>/2020/02/24/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
